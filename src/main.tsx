@@ -4,10 +4,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Toaster } from "sonner";
 import App from "./App.tsx";
 import "./index.css";
+import AuthProvider from "./providers/AuthProvider.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Router>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
       <Toaster richColors position="bottom-right" />
     </Router>
   </StrictMode>,

@@ -1,0 +1,4 @@
+const SET_USER = "SET_USER";
+const LOGGEDOUT = "LOGGEDOUT";
+
+export { LOGGEDOUT, SET_USER };
