@@ -1,10 +1,12 @@
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/Login";
+
 const App = () => {
   return (
-    <div>
-      <div className="bg-linear-to-r from-primary to-primary-dark text-white p-6 rounded-2xl">
-        
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+
+    </Routes>
   );
 };
 
