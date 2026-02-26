@@ -1,6 +1,9 @@
 import { CheckCircle2, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import api from "../api";
 
 type LoginFormValues = {
   email: string;
@@ -10,6 +13,7 @@ type LoginFormValues = {
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const EyeIcon = showPassword ? EyeOff : Eye;
+  const navigation = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,7 +25,19 @@ export default function LoginPage() {
   const passwordValue = watch("password");
 
   const onSubmit = async (data: LoginFormValues) => {
-    console.log(data);
+    try {
+      const res = await api.post("/login", data);
+      if (res.status === 200) {
+        console.log("🚀 ~ res:", res);
+        const userId = res.data?.id;
+        toast.success("Login successful!");
+        localStorage.setItem("userId", userId);
+        return navigation("/dashboard");
+      }
+    } catch (error) {
+      toast.error("Login failed. Please check your credentials and try again.");
+      console.log("Login error:", error);
+    }
   };
 
   return (
