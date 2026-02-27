@@ -10,6 +10,12 @@
   --color-donezo-text: #111827;
   --color-donezo-text-muted: #6b7280;
   --color-donezo-border: #e5e7eb;
+
+  --font-family-sans: "Inter Variable", sans-serif;
+}
+
+body {
+  font-family: var(--font-family-sans);
 }
 
 @keyframes loading {

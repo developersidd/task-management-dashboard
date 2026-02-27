@@ -5,13 +5,14 @@ import useAuthContext from "./hooks/useAuthContext";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/Login";
 import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 import Loader from "./ui/Loader";
 
 const App = () => {
   // get current user
   const { state, dispatch } = useAuthContext();
   const [isLoading, setIsLoading] = useState(true);
-  console.log("🚀 ~ state:", state);
+  //console.log("🚀 ~ state:", state);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     setIsLoading(true);
@@ -32,13 +33,15 @@ const App = () => {
     }
   }, [userId, dispatch]);
 
-  if (!isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+      <Route path="" element={<PublicRoute />}>
+        <Route path="/" element={<LoginPage />} />
+      </Route>
       <Route path="" element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
