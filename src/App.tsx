@@ -1,16 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import api from "./api";
 import useAuthContext from "./hooks/useAuthContext";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/Login";
+import PrivateRoute from "./routes/PrivateRoute";
+import Loader from "./ui/Loader";
 
 const App = () => {
   // get current user
-  const { state,dispatch } = useAuthContext();
-  console.log("🚀 ~ state:", state)
+  const { state, dispatch } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(true);
+  console.log("🚀 ~ state:", state);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
+    setIsLoading(true);
     const fetchCurrentUser = async () => {
       try {
         const response = await api.get(`/users/${userId}`);
@@ -19,17 +23,25 @@ const App = () => {
         }
       } catch (error) {
         console.error("Failed to fetch current user:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (userId) {
       fetchCurrentUser();
     }
   }, [userId, dispatch]);
-  
+
+  if (!isLoading) {
+    return <Loader />;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
     </Routes>
   );
 };
