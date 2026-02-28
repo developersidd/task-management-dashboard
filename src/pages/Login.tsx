@@ -33,7 +33,8 @@ export default function LoginPage() {
         const userId = res.data?.id;
         toast.success("Login successful!");
         localStorage.setItem("userId", userId);
-        return navigation("/dashboard");
+        navigation("/dashboard");
+        window.location.reload(); 
       }
     } catch (error) {
       toast.error("Login failed. Please check your credentials and try again.");
