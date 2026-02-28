@@ -16,7 +16,7 @@ const COLORS = {
 };
 
 type ProjectAnalyticsBarChartProps = {
-  data: AnalyticsType[];
+  data: AnalyticsType[] | null;
   loading: boolean;
   error: string | null;
 };
