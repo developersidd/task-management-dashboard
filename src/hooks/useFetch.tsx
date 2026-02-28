@@ -16,8 +16,8 @@ const useFetch = <T,>(url: string) => {
         }
         setData(response.data);
         setError(null);
-      } catch (err: any) {
-        setError(err?.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An error occurred");
         setData(null);
       } finally {
         setLoading(false);

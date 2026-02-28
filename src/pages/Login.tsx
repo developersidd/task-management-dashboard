@@ -22,6 +22,7 @@ export default function LoginPage() {
   } = useForm<LoginFormValues>({
     mode: "onSubmit",
   });
+  // eslint-disable-next-line react-hooks/incompatible-library
   const passwordValue = watch("password");
 
   const onSubmit = async (data: LoginFormValues) => {

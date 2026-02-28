@@ -23,8 +23,6 @@ type ProjectAnalyticsBarChartProps = {
 
 function ProjectAnalyticsBarChart({
   data,
-  loading,
-  error,
 }: ProjectAnalyticsBarChartProps) {
 
     const chartData = data?.map((item) => ({

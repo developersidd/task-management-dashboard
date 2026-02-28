@@ -10,7 +10,7 @@ import Loader from "./ui/Loader";
 
 const App = () => {
   // get current user
-  const { state, dispatch } = useAuthContext();
+  const { dispatch } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   //console.log("🚀 ~ state:", state);
   const userId = localStorage.getItem("userId");

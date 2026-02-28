@@ -3,10 +3,10 @@ import type { OverviewType } from "../../types";
 import DashboardOverviewPieChart from "../../ui/charts/DashboardOverviewPieChart";
 
 const DashboardOverview = () => {
-  const { data, loading, error } = useFetch<OverviewType>("/overview");
+  const { data } = useFetch<OverviewType>("/overview");
   const chartData = [
     { name: "Revenue", value: data?.revenue || 0, color: "#1B4D3E" },
-    { name: "Growth", value: data?.growth + 5000, color: "#25463b" },
+    { name: "Growth", value: data?.growth as number + 5000, color: "#25463b" },
     { name: "Active Users", value: data?.activeUsers || 0, color: "#4FA892" },
     {
       name: "Total Users",
