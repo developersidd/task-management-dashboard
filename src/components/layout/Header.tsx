@@ -1,12 +1,15 @@
 import { Bell, Mail, Menu, Search } from "lucide-react";
+import useAuthContext from "../../hooks/useAuthContext";
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
+  const { state } = useAuthContext();
+  const { email, name } = state.user || {};
   return (
-    <header className="w-full h-20 bg-donezo-bg border-b border-donezo-border/50 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30">
+    <header className="w-full h-20 bg-donezo-bg border-b border-donezo-border/50 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 max-xl:gap-3">
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={onMenuClick}
@@ -54,10 +57,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
           <div className="hidden sm:block">
             <p className="text-sm font-semibold text-donezo-text">
-              Totok Michael
+              {name}
             </p>
             <p className="text-xs text-donezo-text-muted">
-              tmichael20@mail.com
+              {email}
             </p>
           </div>
         </div>

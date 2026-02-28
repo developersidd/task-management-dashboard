@@ -11,12 +11,12 @@ import Loader from "./ui/Loader";
 const App = () => {
   // get current user
   const { state, dispatch } = useAuthContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   //console.log("🚀 ~ state:", state);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
-    setIsLoading(true);
     const fetchCurrentUser = async () => {
+      setIsLoading(true);
       try {
         const response = await api.get(`/users/${userId}`);
         if (response?.status === 200) {

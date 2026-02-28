@@ -1,54 +1,61 @@
-import { 
-  LayoutDashboard, 
-  CheckSquare, 
-  Calendar, 
-  BarChart2, 
-  Users, 
-  Settings, 
-  HelpCircle, 
+import {
+  BarChart2,
+  Calendar,
+  CheckSquare,
+  HelpCircle,
+  LayoutDashboard,
   LogOut,
+  Settings,
   Target,
+  Users,
   X,
-  
-} from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+} from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LOGGEDOUT } from "../../actions/auth.action";
+import useAuthContext from "../../hooks/useAuthContext";
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
+const menuItems = [
+  { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { name: "Tasks", icon: CheckSquare, href: "/tasks", badge: "12+" },
+  { name: "Calendar", icon: Calendar, href: "/calendar" },
+  { name: "Analytics", icon: BarChart2, href: "/analytics" },
+  { name: "Team", icon: Users, href: "/team" },
+];
+
+const generalItems = [
+  { name: "Settings", icon: Settings, href: "/settings" },
+  { name: "Help", icon: HelpCircle, href: "/help" },
+  //{ name: "Logout", icon: LogOut, href: "/login" },
+];
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = useLocation().pathname;
-
-  const menuItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-    { name: 'Tasks', icon: CheckSquare, href: '/tasks', badge: '12+' },
-    { name: 'Calendar', icon: Calendar, href: '/calendar' },
-    { name: 'Analytics', icon: BarChart2, href: '/analytics' },
-    { name: 'Team', icon: Users, href: '/team' },
-  ];
-
-  const generalItems = [
-    { name: 'Settings', icon: Settings, href: '/settings' },
-    { name: 'Help', icon: HelpCircle, href: '/help' },
-    { name: 'Logout', icon: LogOut, href: '/login' },
-  ];
+  const navigation = useNavigate();
+  const { dispatch } = useAuthContext();
+  const logout = () => {
+    localStorage.removeItem("userId");
+    dispatch({ type: LOGGEDOUT });
+    navigation("/");
+  };
 
   return (
     <>
       {/* Mobile Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
-      <aside 
-        className={`fixed lg:static inset-y-0 left-0 z-50  w-72 bg-donezo-surface border-r border-donezo-border flex flex-col transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-50  w-64 bg-donezo-surface border-r border-donezo-border flex flex-col transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Logo */}
@@ -59,7 +66,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
             <span className="text-xl font-bold text-donezo-text">Donezo</span>
           </Link>
-          <button onClick={onClose} className="lg:hidden text-donezo-text-muted hover:text-donezo-text">
+          <button
+            onClick={onClose}
+            className="lg:hidden text-donezo-text-muted hover:text-donezo-text"
+          >
             <X size={24} />
           </button>
         </div>
@@ -78,13 +88,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     key={item.name}
                     to={item.href}
                     className={`flex items-center justify-between px-2 py-2.5 rounded-xl transition-colors ${
-                      isActive 
-                        ? 'bg-donezo-bg text-donezo-primary font-medium' 
-                        : 'text-donezo-text-muted hover:bg-donezo-bg hover:text-donezo-primary'
+                      isActive
+                        ? "bg-donezo-bg text-donezo-primary font-medium"
+                        : "text-donezo-text-muted hover:bg-donezo-bg hover:text-donezo-primary"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <item.icon fill={isActive ? '#1b4d3e ' : "none"} size={20} className={isActive ? 'text-donezo-primary' : ''} />
+                      <item.icon
+                        fill={isActive ? "#1b4d3e " : "none"}
+                        size={20}
+                        className={isActive ? "text-donezo-primary" : ""}
+                      />
                       <span>{item.name}</span>
                     </div>
                     {item.badge && (
@@ -111,9 +125,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     key={item.name}
                     to={item.href}
                     className={`flex items-center gap-3 px-2 py-2.5 rounded-xl transition-colors ${
-                      isActive 
-                        ? 'bg-donezo-bg text-donezo-primary font-medium' 
-                        : 'text-donezo-text-muted hover:bg-donezo-bg hover:text-donezo-primary'
+                      isActive
+                        ? "bg-donezo-bg text-donezo-primary font-medium"
+                        : "text-donezo-text-muted hover:bg-donezo-bg hover:text-donezo-primary"
                     }`}
                   >
                     <item.icon size={20} />
@@ -121,6 +135,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   </Link>
                 );
               })}
+              <button
+                onClick={logout}
+                className="cursor-pointer w-full flex items-center gap-3 px-2 py-2.5 rounded-xl text-donezo-text-muted hover:bg-donezo-bg hover:text-donezo-primary transition-colors"
+              >
+                <LogOut size={20} />
+                <span>Logout</span>
+              </button>
             </nav>
           </div>
         </div>
@@ -130,13 +151,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="bg-donezo-primary rounded-2xl p-5 text-white relative overflow-hidden">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
             <div className="absolute -left-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-            
+
             <div className="relative z-10">
               <div className="bg-white/20 w-8 h-8 rounded-full flex items-center justify-center mb-3">
                 <Target size={16} className="text-white" />
               </div>
-              <h4 className="font-semibold mb-1">Download our<br/>Mobile App</h4>
-              <p className="text-white/70 text-xs mb-4">Get easy in another way</p>
+              <h4 className="font-semibold mb-1">
+                Download our
+                <br />
+                Mobile App
+              </h4>
+              <p className="text-white/70 text-xs mb-4">
+                Get easy in another way
+              </p>
               <button className="w-full bg-white/20 hover:bg-white/30 transition-colors text-white text-sm font-medium py-2 rounded-lg">
                 Download
               </button>

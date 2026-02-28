@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --font-inter: "Inter Variable", sans-serif;
+}
+
 @theme {
   --color-donezo-primary: #1b4d3e;
   --color-donezo-primary-dark: #082810;
@@ -11,11 +15,13 @@
   --color-donezo-text-muted: #6b7280;
   --color-donezo-border: #e5e7eb;
 
-  --font-family-sans: "Inter Variable", sans-serif;
+  --font-inter: var(--font-inter), sans-serif, system-ui, -apple-system;
 }
 
-body {
-  font-family: var(--font-family-sans);
+@layer base {
+  body {
+    @apply font-inter;
+  }
 }
 
 @keyframes loading {
